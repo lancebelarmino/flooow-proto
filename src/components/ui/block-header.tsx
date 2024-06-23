@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 import { cn } from '@utils';
 
@@ -79,32 +78,16 @@ const colorOptions = {
 
 type ColorOptions = keyof typeof colorOptions;
 
-interface BlockTriggerProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {
+interface BlockHeaderProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {
   color: ColorOptions;
 }
 
-const Block = AccordionPrimitive.Root;
-
-const BlockItem = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={cn('[&:not(:last-child)]:mb-12', className)} {...props} />
-));
-BlockItem.displayName = 'BlockItem';
-
-const BlockTrigger = React.forwardRef<React.ElementRef<typeof AccordionPrimitive.Trigger>, BlockTriggerProps>(
+const BlockHeader = React.forwardRef<React.ElementRef<typeof AccordionPrimitive.Trigger>, BlockHeaderProps>(
   ({ className, children, color, ...props }, ref) => (
-    <AccordionPrimitive.Header className="flex">
-      <AccordionPrimitive.Trigger
-        ref={ref}
-        className={cn(
-          'flex flex-1 items-center gap-1 pb-4 text-xs font-medium uppercase tracking-wide transition-all [&[data-state=open]>svg]:rotate-180',
-          colorOptions[color].text,
-          className
-        )}
-        {...props}
-      >
+    <AccordionPrimitive.Header
+      className={cn('flex flex-1 items-center gap-1 pb-4', colorOptions[color].text, className)}
+    >
+      <AccordionPrimitive.Trigger ref={ref} className="transition-all [&[data-state=open]>svg]:rotate-180" {...props}>
         <svg
           className="shrink-0 transition-transform duration-200"
           width="16"
@@ -115,25 +98,13 @@ const BlockTrigger = React.forwardRef<React.ElementRef<typeof AccordionPrimitive
         >
           <path d="M7 11L2 6H12L7 11Z" fill="#94A3B8" />
         </svg>
-        <span className={cn('rounded px-2 py-1', colorOptions[color].bg)}>{children}</span>
       </AccordionPrimitive.Trigger>
+      <span className={cn('rounded px-2 py-1 text-xs font-medium uppercase tracking-wide', colorOptions[color].bg)}>
+        {children}
+      </span>
     </AccordionPrimitive.Header>
   )
 );
-BlockTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+BlockHeader.displayName = AccordionPrimitive.Trigger.displayName;
 
-const BlockContent = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Content
-    ref={ref}
-    className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-    {...props}
-  >
-    <div className={cn('pb-4 pt-0', className)}>{children}</div>
-  </AccordionPrimitive.Content>
-));
-BlockContent.displayName = AccordionPrimitive.Content.displayName;
-
-export { Block, BlockItem, BlockTrigger, BlockContent };
+export { BlockHeader };

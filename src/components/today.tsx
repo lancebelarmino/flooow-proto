@@ -1,5 +1,13 @@
-import { Heading, Button, DropdownMenu, DropdownMenuTrigger } from '@components/ui';
-import { Block, BlockItem, BlockTrigger, BlockContent } from '@components';
+import {
+  Heading,
+  Button,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  Block,
+  BlockItem,
+  BlockHeader,
+  BlockContent
+} from '@components/ui';
 
 export function Today() {
   return (
@@ -50,17 +58,17 @@ export function Today() {
       </div>
 
       <div className="pt-7">
-        <Block type="multiple" collapsible className="w-full">
+        <Block type="multiple" className="w-full">
           <BlockItem value="item-1">
-            <BlockTrigger color="orange">Morning</BlockTrigger>
+            <BlockHeader color="orange">Morning</BlockHeader>
             <BlockContent>Item</BlockContent>
           </BlockItem>
           <BlockItem value="item-2">
-            <BlockTrigger color="blue">Afternoon</BlockTrigger>
+            <BlockHeader color="blue">Afternoon</BlockHeader>
             <BlockContent>Item</BlockContent>
           </BlockItem>
           <BlockItem value="item-3">
-            <BlockTrigger color="violet">Evening</BlockTrigger>
+            <BlockHeader color="violet">Evening</BlockHeader>
             <BlockContent>Item</BlockContent>
           </BlockItem>
         </Block>
