@@ -4,8 +4,9 @@ import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 
 import { cn } from '@utils';
+import { ColorOptions } from '@types';
 
-const colorOptions = {
+export const colorOptions = {
   red: {
     bg: 'bg-red-100',
     text: 'text-red-500'
@@ -75,8 +76,6 @@ const colorOptions = {
     text: 'text-rose-500'
   }
 };
-
-type ColorOptions = keyof typeof colorOptions;
 
 interface BlockHeaderProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {
   color: ColorOptions;

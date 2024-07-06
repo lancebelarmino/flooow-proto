@@ -1,3 +1,6 @@
+import { useLiveQuery } from 'dexie-react-hooks';
+
+import { indexedDb } from '@db';
 import {
   Heading,
   Button,
@@ -10,8 +13,25 @@ import {
 } from '@components/ui';
 
 export function Today() {
+  const blocks = useLiveQuery(async () => {
+    const blocks = await indexedDb.blocks.toArray();
+    return blocks;
+  }, []);
+
+  const blockList =
+    blocks !== undefined ? (
+      blocks.map((block, index) => (
+        <BlockItem key={index} value={block.id}>
+          <BlockHeader color={block.color}>{block.name}</BlockHeader>
+          <BlockContent>Item</BlockContent>
+        </BlockItem>
+      ))
+    ) : (
+      <div>Loader</div>
+    );
+
   return (
-    <div className="pt-10 lg:w-[560px]">
+    <div className="w-full pt-10 lg:w-[560px]">
       <div className="flex justify-between">
         <Heading as="h3">Today</Heading>
         <div className="flex gap-2">
@@ -59,18 +79,7 @@ export function Today() {
 
       <div className="pt-7">
         <Block type="multiple" className="w-full">
-          <BlockItem value="item-1">
-            <BlockHeader color="orange">Morning</BlockHeader>
-            <BlockContent>Item</BlockContent>
-          </BlockItem>
-          <BlockItem value="item-2">
-            <BlockHeader color="blue">Afternoon</BlockHeader>
-            <BlockContent>Item</BlockContent>
-          </BlockItem>
-          <BlockItem value="item-3">
-            <BlockHeader color="violet">Evening</BlockHeader>
-            <BlockContent>Item</BlockContent>
-          </BlockItem>
+          {blockList}
         </Block>
       </div>
     </div>
