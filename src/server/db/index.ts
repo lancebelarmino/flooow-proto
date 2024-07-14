@@ -10,7 +10,7 @@ const indexedDb = new Dexie('FlooowDatabase') as Dexie & {
 };
 
 indexedDb.version(1).stores({
-  blocks: 'id, name, color'
+  blocks: '++id, name, color'
 });
 
 export { indexedDb };

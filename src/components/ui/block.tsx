@@ -5,8 +5,20 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion';
 
 import { cn } from '@utils';
 import { BlockHeader } from './block-header';
+import { BlockEditor } from './block-editor';
 
-const Block = AccordionPrimitive.Root;
+interface Block
+  extends React.ForwardRefExoticComponent<
+    (AccordionPrimitive.AccordionSingleProps | AccordionPrimitive.AccordionMultipleProps) &
+      React.RefAttributes<HTMLDivElement>
+  > {
+  Header: typeof BlockHeader;
+  Item: typeof AccordionPrimitive.Item;
+  Content: typeof AccordionPrimitive.Content;
+  Editor: typeof BlockEditor;
+}
+
+const Block = AccordionPrimitive.Root as unknown as Block;
 
 const BlockItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
@@ -30,4 +42,9 @@ const BlockContent = React.forwardRef<
 ));
 BlockContent.displayName = AccordionPrimitive.Content.displayName;
 
-export { Block, BlockItem, BlockHeader, BlockContent };
+Block.Header = BlockHeader;
+Block.Item = BlockItem;
+Block.Content = BlockContent;
+Block.Editor = BlockEditor;
+
+export { Block };

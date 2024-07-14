@@ -1,30 +1,27 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 
 import { indexedDb } from '@db';
-import {
-  Heading,
-  Button,
-  DropdownMenu,
-  DropdownMenuTrigger,
-  Block,
-  BlockItem,
-  BlockHeader,
-  BlockContent
-} from '@components/ui';
+import { Heading, Button, DropdownMenu, DropdownMenuTrigger, Block } from '@components/ui';
 
 export function Today() {
   const blocks = useLiveQuery(async () => {
-    const blocks = await indexedDb.blocks.toArray();
+    const blocks = await indexedDb.blocks.orderBy('id').toArray();
     return blocks;
   }, []);
+
+  const handleBlockTitleChange = async (id: string, value: string) => {
+    await indexedDb.blocks.update(id, { name: value });
+  };
 
   const blockList =
     blocks !== undefined ? (
       blocks.map((block, index) => (
-        <BlockItem key={index} value={block.id}>
-          <BlockHeader color={block.color}>{block.name}</BlockHeader>
-          <BlockContent>Item</BlockContent>
-        </BlockItem>
+        <Block.Item key={index} value={block.id}>
+          <Block.Header id={block.id} color={block.color} onTitleChange={handleBlockTitleChange}>
+            {block.name}
+          </Block.Header>
+          <Block.Content>Item</Block.Content>
+        </Block.Item>
       ))
     ) : (
       <div>Loader</div>
